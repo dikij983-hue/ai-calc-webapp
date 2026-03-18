@@ -1,0 +1,282 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--tg-theme-bg-color, #1a1a1a);
+    color: var(--tg-theme-text-color, #ffffff);
+    min-height: 100vh;
+    padding: 16px;
+}
+
+/* ============================================================
+   ЭКРАНЫ
+============================================================ */
+
+.screen {
+    display: none;
+    animation: fadeIn 0.2s ease;
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   ШАПКА
+============================================================ */
+
+.header {
+    margin-bottom: 24px;
+    padding-top: 8px;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.header p {
+    font-size: 14px;
+    opacity: 0.6;
+}
+
+.back {
+    font-size: 14px;
+    color: var(--tg-theme-link-color, #6ab3f3);
+    cursor: pointer;
+    margin-bottom: 12px;
+    display: inline-block;
+}
+
+.result-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+/* ============================================================
+   КАРТОЧКИ ВЫБОРА
+============================================================ */
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card {
+    background: var(--tg-theme-secondary-bg-color, #2a2a2a);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.card:active {
+    transform: scale(0.98);
+    opacity: 0.8;
+}
+
+.card-icon {
+    font-size: 32px;
+    width: 48px;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.card-subtitle {
+    font-size: 13px;
+    opacity: 0.5;
+    margin-top: 2px;
+}
+
+/* ============================================================
+   ФОРМА
+============================================================ */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
+.form-group input {
+    background: var(--tg-theme-secondary-bg-color, #2a2a2a);
+    border: none;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 16px;
+    color: var(--tg-theme-text-color, #ffffff);
+    outline: none;
+    width: 100%;
+    transition: background 0.2s ease;
+}
+
+.form-group input:focus {
+    background: var(--tg-theme-secondary-bg-color, #333333);
+}
+
+.form-group input::placeholder {
+    opacity: 0.4;
+}
+
+/* ============================================================
+   ПРЕДПРОСМОТР
+============================================================ */
+
+.preview {
+    background: var(--tg-theme-secondary-bg-color, #2a2a2a);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.preview-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.preview-row span:first-child {
+    opacity: 0.6;
+}
+
+.preview-row.total {
+    font-size: 17px;
+    font-weight: 700;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ============================================================
+   КНОПКИ
+============================================================ */
+
+.btn-calculate {
+    background: var(--tg-theme-button-color, #3390ec);
+    color: var(--tg-theme-button-text-color, #ffffff);
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.15s ease;
+}
+
+.btn-calculate:active {
+    opacity: 0.8;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-new {
+    background: var(--tg-theme-button-color, #3390ec);
+    color: var(--tg-theme-button-text-color, #ffffff);
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.15s ease;
+}
+
+.btn-new:active {
+    opacity: 0.8;
+}
+
+.btn-close {
+    background: transparent;
+    color: var(--tg-theme-hint-color, #aaaaaa);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.15s ease;
+}
+
+.btn-close:active {
+    opacity: 0.8;
+}
+
+/* ============================================================
+   РЕЗУЛЬТАТ
+============================================================ */
+
+.result-card {
+    background: var(--tg-theme-secondary-bg-color, #2a2a2a);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+}
+
+.result-row span:first-child {
+    opacity: 0.6;
+}
+
+.result-row span:last-child {
+    font-weight: 500;
+}
+
+.result-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+}
+
+.result-total {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.result-total span:first-child {
+    opacity: 1;
+}

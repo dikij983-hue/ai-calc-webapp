@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Calc</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Экран 1: Выбор агрегатора -->
+    <div id="screen-aggregator" class="screen active">
+        <div class="header">
+            <h1>AI Калькулятор</h1>
+            <p>Выбери агрегатор</p>
+        </div>
+
+        <div class="cards">
+            <div class="card" onclick="selectAggregator('higgsfield')">
+                <div class="card-icon">⚡</div>
+                <div class="card-title">Higgsfield.ai</div>
+                <div class="card-subtitle">Кредиты</div>
+            </div>
+
+            <div class="card" onclick="selectAggregator('syntx')">
+                <div class="card-icon">🔷</div>
+                <div class="card-title">Syntx.ai</div>
+                <div class="card-subtitle">Токены</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Экран 2: Выбор модели -->
+    <div id="screen-model" class="screen">
+        <div class="header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <h1 id="model-title">Модель</h1>
+            <p>Выбери модель генерации</p>
+        </div>
+
+        <div class="cards" id="model-cards">
+        </div>
+    </div>
+
+    <!-- Экран 3: Выбор качества -->
+    <div id="screen-quality" class="screen">
+        <div class="header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <h1>Качество</h1>
+            <p id="quality-subtitle">Выбери качество</p>
+        </div>
+
+        <div class="cards" id="quality-cards">
+        </div>
+    </div>
+
+    <!-- Экран 4: Количество и стоимость -->
+    <div id="screen-quantity" class="screen">
+        <div class="header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <h1>Детали</h1>
+            <p>Укажи количество и стоимость работы</p>
+        </div>
+
+        <div class="form">
+            <div class="form-group">
+                <label>Количество генераций</label>
+                <input
+                    type="number"
+                    id="quantity-input"
+                    placeholder="Например: 50"
+                    min="1"
+                    onchange="updatePreview()"
+                    oninput="updatePreview()"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Стоимость твоей работы</label>
+                <input
+                    type="number"
+                    id="labor-input"
+                    placeholder="Например: 200 (или 0)"
+                    min="0"
+                    onchange="updatePreview()"
+                    oninput="updatePreview()"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Название проекта</label>
+                <input
+                    type="text"
+                    id="name-input"
+                    placeholder="Например: Лого для клиента"
+                >
+            </div>
+
+            <!-- Предпросмотр стоимости -->
+            <div class="preview" id="preview">
+                <div class="preview-row">
+                    <span>Стоимость AI:</span>
+                    <span id="preview-ai">—</span>
+                </div>
+                <div class="preview-row">
+                    <span>Стоимость работы:</span>
+                    <span id="preview-labor">—</span>
+                </div>
+                <div class="preview-row total">
+                    <span>ИТОГО:</span>
+                    <span id="preview-total">—</span>
+                </div>
+            </div>
+
+            <button class="btn-calculate" onclick="calculate()">
+                Рассчитать
+            </button>
+        </div>
+    </div>
+
+    <!-- Экран 5: Результат -->
+    <div id="screen-result" class="screen">
+        <div class="header">
+            <div class="result-icon">✅</div>
+            <h1>Готово!</h1>
+            <p id="result-project-name">Проект сохранён</p>
+        </div>
+
+        <div class="result-card">
+            <div class="result-row">
+                <span>Агрегатор</span>
+                <span id="result-aggregator">—</span>
+            </div>
+            <div class="result-row">
+                <span>Модель</span>
+                <span id="result-model">—</span>
+            </div>
+            <div class="result-row">
+                <span>Качество</span>
+                <span id="result-quality">—</span>
+            </div>
+            <div class="result-row">
+                <span>Генераций</span>
+                <span id="result-quantity">—</span>
+            </div>
+            <div class="result-divider"></div>
+            <div class="result-row">
+                <span>Стоимость AI</span>
+                <span id="result-ai-cost">—</span>
+            </div>
+            <div class="result-row">
+                <span>Стоимость работы</span>
+                <span id="result-labor">—</span>
+            </div>
+            <div class="result-row result-total">
+                <span>ИТОГО</span>
+                <span id="result-total">—</span>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn-new" onclick="startOver()">
+                Новый расчёт
+            </button>
+            <button class="btn-close" onclick="closeApp()">
+                Закрыть
+            </button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
