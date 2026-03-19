@@ -9,163 +9,528 @@
 </head>
 <body>
 
-    <!-- Экран 1: Выбор агрегатора -->
-    <div id="screen-aggregator" class="screen active">
-        <div class="header">
-            <h1>AI Калькулятор</h1>
-            <p>Выбери агрегатор</p>
+    <!-- ГЛАВНОЕ МЕНЮ -->
+    <div id="screen-home" class="screen active">
+        <div class="home-header">
+            <div class="home-title">AI Калькулятор</div>
+            <div class="home-subtitle">Управляй стоимостью генераций</div>
         </div>
 
-        <div class="cards">
-            <div class="card" onclick="selectAggregator('higgsfield')">
-                <div class="card-icon">⚡</div>
-                <div class="card-title">Higgsfield.ai</div>
-                <div class="card-subtitle">Кредиты</div>
+        <!-- Кнопка бесплатного расчёта (только без подписки) -->
+        <div id="free-calc-block">
+            <button id="free-calc-btn" class="btn-free" onclick="startFreeCalc()">
+                <span class="btn-free-icon">🎁</span>
+                <span class="btn-free-text">Бесплатный расчёт</span>
+                <span class="btn-free-badge" id="free-count">3</span>
+            </button>
+        </div>
+
+        <!-- Основное меню -->
+        <div class="menu-list">
+            <div class="menu-item" onclick="navigateTo('screen-new-project')">
+                <div class="menu-item-left">
+                    <div class="menu-icon">📊</div>
+                    <div>
+                        <div class="menu-title">Рассчитать проект</div>
+                        <div class="menu-desc">Создать новый расчёт</div>
+                    </div>
+                </div>
+                <div class="menu-arrow">›</div>
             </div>
 
-            <div class="card" onclick="selectAggregator('syntx')">
-                <div class="card-icon">🔷</div>
-                <div class="card-title">Syntx.ai</div>
-                <div class="card-subtitle">Токены</div>
+            <div class="menu-item" onclick="navigateTo('screen-history')">
+                <div class="menu-item-left">
+                    <div class="menu-icon">📁</div>
+                    <div>
+                        <div class="menu-title">История проектов</div>
+                        <div class="menu-desc">Все расчёты и сметы</div>
+                    </div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+
+            <div class="menu-item" onclick="navigateTo('screen-analytics')">
+                <div class="menu-item-left">
+                    <div class="menu-icon">📈</div>
+                    <div>
+                        <div class="menu-title">Аналитика</div>
+                        <div class="menu-desc">Затраты и прибыль</div>
+                    </div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+
+            <div class="menu-item" onclick="navigateTo('screen-profile')">
+                <div class="menu-item-left">
+                    <div class="menu-icon">👤</div>
+                    <div>
+                        <div class="menu-title">Профиль</div>
+                        <div class="menu-desc">Настройки и подписка</div>
+                    </div>
+                </div>
+                <div class="menu-arrow">›</div>
             </div>
         </div>
     </div>
 
-    <!-- Экран 2: Выбор модели -->
+    <!-- ВЫБОР ТИПА ПРОЕКТА -->
+    <div id="screen-new-project" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">Новый проект</div>
+        </div>
+        <div class="section-label">Выбери тип проекта</div>
+        <div class="type-cards">
+            <div class="type-card" onclick="selectProjectType('single')">
+                <div class="type-icon">🎬</div>
+                <div class="type-title">Одиночный креатив</div>
+                <div class="type-desc">Один видеоролик или изображение для заказчика</div>
+            </div>
+            <div class="type-card" onclick="selectProjectType('series')">
+                <div class="type-icon">🎞</div>
+                <div class="type-title">Серия креативов</div>
+                <div class="type-desc">Несколько роликов в рамках одного заказа</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ФОРМА ПРОЕКТА -->
+    <div id="screen-project-form" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title" id="form-title">Новый проект</div>
+        </div>
+        <div class="form">
+            <div class="form-group">
+                <label>Название проекта</label>
+                <input type="text" id="proj-name" placeholder="Например: Реклама для Nike">
+            </div>
+            <div class="form-group">
+                <label>Имя заказчика</label>
+                <input type="text" id="proj-client" placeholder="Например: Иван Петров">
+            </div>
+            <div class="form-group">
+                <label>Бюджет заказчика</label>
+                <div class="input-row">
+                    <input type="number" id="proj-budget" placeholder="0" min="0">
+                    <select id="proj-currency" class="select-inline">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="RUB">RUB</option>
+                        <option value="GBP">GBP</option>
+                        <option value="AED">AED</option>
+                        <option value="CHF">CHF</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Дедлайн</label>
+                <input type="date" id="proj-deadline">
+            </div>
+            <div class="form-group">
+                <label>Агрегатор(ы)</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="agg-higgsfield" value="higgsfield">
+                        <span>⚡ Higgsfield.ai</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="agg-syntx" value="syntx">
+                        <span>🔷 Syntx.ai</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" id="series-count-group" style="display:none">
+                <label>Количество креативов в серии</label>
+                <input type="number" id="proj-series-count" placeholder="Например: 5" min="1">
+            </div>
+            <div class="form-group">
+                <label>Комментарий (необязательно)</label>
+                <input type="text" id="proj-comment" placeholder="Доп. информация о проекте">
+            </div>
+            <button class="btn-primary" onclick="saveProject()">Продолжить к расчёту →</button>
+        </div>
+    </div>
+
+    <!-- ИСТОРИЯ -->
+    <div id="screen-history" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">История проектов</div>
+        </div>
+        <div id="history-list" class="history-list">
+            <div class="empty-state">
+                <div class="empty-icon">📂</div>
+                <div class="empty-text">Проектов пока нет</div>
+                <div class="empty-desc">Создай первый расчёт</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- АНАЛИТИКА -->
+    <div id="screen-analytics" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">Аналитика</div>
+        </div>
+        <div class="coming-soon">
+            <div class="coming-icon">📈</div>
+            <div class="coming-text">Скоро</div>
+            <div class="coming-desc">Аналитика появится после создания первых проектов</div>
+        </div>
+    </div>
+
+    <!-- ПРОФИЛЬ -->
+    <div id="screen-profile" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">Профиль</div>
+        </div>
+        <div class="coming-soon">
+            <div class="coming-icon">👤</div>
+            <div class="coming-text">Скоро</div>
+            <div class="coming-desc">Настройки профиля в разработке</div>
+        </div>
+    </div>
+
+    <!-- РАСЧЁТ (агрегатор → модель → качество → детали) -->
+    <div id="screen-aggregator" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">Выбери агрегатор</div>
+        </div>
+        <div class="cards" id="aggregator-cards"></div>
+    </div>
+
     <div id="screen-model" class="screen">
-        <div class="header">
+        <div class="nav-header">
             <div class="back" onclick="goBack()">← Назад</div>
-            <h1 id="model-title">Модель</h1>
-            <p>Выбери модель генерации</p>
+            <div class="nav-title" id="model-title">Модель</div>
         </div>
-
-        <div class="cards" id="model-cards">
-        </div>
+        <div class="cards" id="model-cards"></div>
     </div>
 
-    <!-- Экран 3: Выбор качества -->
     <div id="screen-quality" class="screen">
-        <div class="header">
+        <div class="nav-header">
             <div class="back" onclick="goBack()">← Назад</div>
-            <h1>Качество</h1>
-            <p id="quality-subtitle">Выбери качество</p>
+            <div class="nav-title">Качество</div>
         </div>
-
-        <div class="cards" id="quality-cards">
-        </div>
+        <div class="cards" id="quality-cards"></div>
     </div>
 
-    <!-- Экран 4: Количество и стоимость -->
     <div id="screen-quantity" class="screen">
-        <div class="header">
+        <div class="nav-header">
             <div class="back" onclick="goBack()">← Назад</div>
-            <h1>Детали</h1>
-            <p>Укажи количество и стоимость работы</p>
+            <div class="nav-title">Детали расчёта</div>
         </div>
-
         <div class="form">
             <div class="form-group">
                 <label>Количество генераций</label>
-                <input
-                    type="number"
-                    id="quantity-input"
-                    placeholder="Например: 50"
-                    min="1"
-                    onchange="updatePreview()"
-                    oninput="updatePreview()"
-                >
+                <input type="number" id="quantity-input" placeholder="Например: 50" min="1" oninput="updatePreview()">
             </div>
-
             <div class="form-group">
                 <label>Стоимость твоей работы</label>
-                <input
-                    type="number"
-                    id="labor-input"
-                    placeholder="Например: 200 (или 0)"
-                    min="0"
-                    onchange="updatePreview()"
-                    oninput="updatePreview()"
-                >
+                <input type="number" id="labor-input" placeholder="0" min="0" oninput="updatePreview()">
             </div>
-
-            <div class="form-group">
-                <label>Название проекта</label>
-                <input
-                    type="text"
-                    id="name-input"
-                    placeholder="Например: Лого для клиента"
-                >
-            </div>
-
-            <!-- Предпросмотр стоимости -->
             <div class="preview" id="preview">
-                <div class="preview-row">
-                    <span>Стоимость AI:</span>
-                    <span id="preview-ai">—</span>
-                </div>
-                <div class="preview-row">
-                    <span>Стоимость работы:</span>
-                    <span id="preview-labor">—</span>
-                </div>
-                <div class="preview-row total">
-                    <span>ИТОГО:</span>
-                    <span id="preview-total">—</span>
-                </div>
+                <div class="preview-row"><span>Стоимость AI:</span><span id="preview-ai">—</span></div>
+                <div class="preview-row"><span>Стоимость работы:</span><span id="preview-labor">—</span></div>
+                <div class="preview-row total"><span>ИТОГО:</span><span id="preview-total">—</span></div>
             </div>
-
-            <button class="btn-calculate" onclick="calculate()">
-                Рассчитать
-            </button>
+            <button class="btn-primary" onclick="calculate()">Рассчитать</button>
         </div>
     </div>
 
-    <!-- Экран 5: Результат -->
+    <!-- РЕЗУЛЬТАТ -->
     <div id="screen-result" class="screen">
-        <div class="header">
+        <div class="result-header">
             <div class="result-icon">✅</div>
-            <h1>Готово!</h1>
-            <p id="result-project-name">Проект сохранён</p>
+            <div class="result-title">Готово!</div>
+            <div class="result-subtitle" id="result-project-name"></div>
         </div>
-
         <div class="result-card">
-            <div class="result-row">
-                <span>Агрегатор</span>
-                <span id="result-aggregator">—</span>
-            </div>
-            <div class="result-row">
-                <span>Модель</span>
-                <span id="result-model">—</span>
-            </div>
-            <div class="result-row">
-                <span>Качество</span>
-                <span id="result-quality">—</span>
-            </div>
-            <div class="result-row">
-                <span>Генераций</span>
-                <span id="result-quantity">—</span>
-            </div>
+            <div class="result-row"><span>Агрегатор</span><span id="result-aggregator">—</span></div>
+            <div class="result-row"><span>Модель</span><span id="result-model">—</span></div>
+            <div class="result-row"><span>Качество</span><span id="result-quality">—</span></div>
+            <div class="result-row"><span>Генераций</span><span id="result-quantity">—</span></div>
             <div class="result-divider"></div>
-            <div class="result-row">
-                <span>Стоимость AI</span>
-                <span id="result-ai-cost">—</span>
-            </div>
-            <div class="result-row">
-                <span>Стоимость работы</span>
-                <span id="result-labor">—</span>
-            </div>
-            <div class="result-row result-total">
-                <span>ИТОГО</span>
-                <span id="result-total">—</span>
-            </div>
+            <div class="result-row"><span>Стоимость AI</span><span id="result-ai-cost">—</span></div>
+            <div class="result-row"><span>Стоимость работы</span><span id="result-labor">—</span></div>
+            <div class="result-row result-total"><span>ИТОГО</span><span id="result-total">—</span></div>
+        </div>
+        <div class="buttons">
+            <button class="btn-primary" onclick="goHome()">На главную</button>
+            <button class="btn-secondary" onclick="closeApp()">Закрыть</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+EOFcat > ~/Desktop/ai_calc_bot/webapp/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Calc</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ГЛАВНОЕ МЕНЮ -->
+    <div id="screen-home" class="screen active">
+        <div class="home-header">
+            <div class="home-title">AI Калькулятор</div>
+            <div class="home-subtitle">Управляй стоимостью генераций</div>
         </div>
 
+        <!-- Кнопка бесплатного расчёта (только без подписки) -->
+        <div id="free-calc-block">
+            <button id="free-calc-btn" class="btn-free" onclick="startFreeCalc()">
+                <span class="btn-free-icon">🎁</span>
+                <span class="btn-free-text">Бесплатный расчёт</span>
+                <span class="btn-free-badge" id="free-count">3</span>
+            </button>
+        </div>
+
+        <!-- Основное меню -->
+        <div class="menu-list">
+            <div class="menu-item" onclick="navigateTo('screen-new-project')">
+                <div class="menu-item-left">
+                    <div class="menu-icon">📊</div>
+                    <div>
+                        <div class="menu-title">Рассчитать проект</div>
+                        <div class="menu-desc">Создать новый расчёт</div>
+                    </div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+
+            <div class="menu-item" onclick="navigateTo('screen-history')">
+                <div class="menu-item-left">
+                    <div class="menu-icon">📁</div>
+                    <div>
+                        <div class="menu-title">История проектов</div>
+                        <div class="menu-desc">Все расчёты и сметы</div>
+                    </div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+
+            <div class="menu-item" onclick="navigateTo('screen-analytics')">
+                <div class="menu-item-left">
+                    <div class="menu-icon">📈</div>
+                    <div>
+                        <div class="menu-title">Аналитика</div>
+                        <div class="menu-desc">Затраты и прибыль</div>
+                    </div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+
+            <div class="menu-item" onclick="navigateTo('screen-profile')">
+                <div class="menu-item-left">
+                    <div class="menu-icon">👤</div>
+                    <div>
+                        <div class="menu-title">Профиль</div>
+                        <div class="menu-desc">Настройки и подписка</div>
+                    </div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ВЫБОР ТИПА ПРОЕКТА -->
+    <div id="screen-new-project" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">Новый проект</div>
+        </div>
+        <div class="section-label">Выбери тип проекта</div>
+        <div class="type-cards">
+            <div class="type-card" onclick="selectProjectType('single')">
+                <div class="type-icon">🎬</div>
+                <div class="type-title">Одиночный креатив</div>
+                <div class="type-desc">Один видеоролик или изображение для заказчика</div>
+            </div>
+            <div class="type-card" onclick="selectProjectType('series')">
+                <div class="type-icon">🎞</div>
+                <div class="type-title">Серия креативов</div>
+                <div class="type-desc">Несколько роликов в рамках одного заказа</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ФОРМА ПРОЕКТА -->
+    <div id="screen-project-form" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title" id="form-title">Новый проект</div>
+        </div>
+        <div class="form">
+            <div class="form-group">
+                <label>Название проекта</label>
+                <input type="text" id="proj-name" placeholder="Например: Реклама для Nike">
+            </div>
+            <div class="form-group">
+                <label>Имя заказчика</label>
+                <input type="text" id="proj-client" placeholder="Например: Иван Петров">
+            </div>
+            <div class="form-group">
+                <label>Бюджет заказчика</label>
+                <div class="input-row">
+                    <input type="number" id="proj-budget" placeholder="0" min="0">
+                    <select id="proj-currency" class="select-inline">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="RUB">RUB</option>
+                        <option value="GBP">GBP</option>
+                        <option value="AED">AED</option>
+                        <option value="CHF">CHF</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Дедлайн</label>
+                <input type="date" id="proj-deadline">
+            </div>
+            <div class="form-group">
+                <label>Агрегатор(ы)</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="agg-higgsfield" value="higgsfield">
+                        <span>⚡ Higgsfield.ai</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="agg-syntx" value="syntx">
+                        <span>🔷 Syntx.ai</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" id="series-count-group" style="display:none">
+                <label>Количество креативов в серии</label>
+                <input type="number" id="proj-series-count" placeholder="Например: 5" min="1">
+            </div>
+            <div class="form-group">
+                <label>Комментарий (необязательно)</label>
+                <input type="text" id="proj-comment" placeholder="Доп. информация о проекте">
+            </div>
+            <button class="btn-primary" onclick="saveProject()">Продолжить к расчёту →</button>
+        </div>
+    </div>
+
+    <!-- ИСТОРИЯ -->
+    <div id="screen-history" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">История проектов</div>
+        </div>
+        <div id="history-list" class="history-list">
+            <div class="empty-state">
+                <div class="empty-icon">📂</div>
+                <div class="empty-text">Проектов пока нет</div>
+                <div class="empty-desc">Создай первый расчёт</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- АНАЛИТИКА -->
+    <div id="screen-analytics" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">Аналитика</div>
+        </div>
+        <div class="coming-soon">
+            <div class="coming-icon">📈</div>
+            <div class="coming-text">Скоро</div>
+            <div class="coming-desc">Аналитика появится после создания первых проектов</div>
+        </div>
+    </div>
+
+    <!-- ПРОФИЛЬ -->
+    <div id="screen-profile" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">Профиль</div>
+        </div>
+        <div class="coming-soon">
+            <div class="coming-icon">👤</div>
+            <div class="coming-text">Скоро</div>
+            <div class="coming-desc">Настройки профиля в разработке</div>
+        </div>
+    </div>
+
+    <!-- РАСЧЁТ (агрегатор → модель → качество → детали) -->
+    <div id="screen-aggregator" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">Выбери агрегатор</div>
+        </div>
+        <div class="cards" id="aggregator-cards"></div>
+    </div>
+
+    <div id="screen-model" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title" id="model-title">Модель</div>
+        </div>
+        <div class="cards" id="model-cards"></div>
+    </div>
+
+    <div id="screen-quality" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">Качество</div>
+        </div>
+        <div class="cards" id="quality-cards"></div>
+    </div>
+
+    <div id="screen-quantity" class="screen">
+        <div class="nav-header">
+            <div class="back" onclick="goBack()">← Назад</div>
+            <div class="nav-title">Детали расчёта</div>
+        </div>
+        <div class="form">
+            <div class="form-group">
+                <label>Количество генераций</label>
+                <input type="number" id="quantity-input" placeholder="Например: 50" min="1" oninput="updatePreview()">
+            </div>
+            <div class="form-group">
+                <label>Стоимость твоей работы</label>
+                <input type="number" id="labor-input" placeholder="0" min="0" oninput="updatePreview()">
+            </div>
+            <div class="preview" id="preview">
+                <div class="preview-row"><span>Стоимость AI:</span><span id="preview-ai">—</span></div>
+                <div class="preview-row"><span>Стоимость работы:</span><span id="preview-labor">—</span></div>
+                <div class="preview-row total"><span>ИТОГО:</span><span id="preview-total">—</span></div>
+            </div>
+            <button class="btn-primary" onclick="calculate()">Рассчитать</button>
+        </div>
+    </div>
+
+    <!-- РЕЗУЛЬТАТ -->
+    <div id="screen-result" class="screen">
+        <div class="result-header">
+            <div class="result-icon">✅</div>
+            <div class="result-title">Готово!</div>
+            <div class="result-subtitle" id="result-project-name"></div>
+        </div>
+        <div class="result-card">
+            <div class="result-row"><span>Агрегатор</span><span id="result-aggregator">—</span></div>
+            <div class="result-row"><span>Модель</span><span id="result-model">—</span></div>
+            <div class="result-row"><span>Качество</span><span id="result-quality">—</span></div>
+            <div class="result-row"><span>Генераций</span><span id="result-quantity">—</span></div>
+            <div class="result-divider"></div>
+            <div class="result-row"><span>Стоимость AI</span><span id="result-ai-cost">—</span></div>
+            <div class="result-row"><span>Стоимость работы</span><span id="result-labor">—</span></div>
+            <div class="result-row result-total"><span>ИТОГО</span><span id="result-total">—</span></div>
+        </div>
         <div class="buttons">
-            <button class="btn-new" onclick="startOver()">
-                Новый расчёт
-            </button>
-            <button class="btn-close" onclick="closeApp()">
-                Закрыть
-            </button>
+            <button class="btn-primary" onclick="goHome()">На главную</button>
+            <button class="btn-secondary" onclick="closeApp()">Закрыть</button>
         </div>
     </div>
 
